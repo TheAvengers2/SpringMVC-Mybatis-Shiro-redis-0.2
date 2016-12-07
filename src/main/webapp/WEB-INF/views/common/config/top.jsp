@@ -67,7 +67,8 @@
 							</shiro:hasPermission>
 						</ul>
 					</li>	
-				</shiro:hasAnyRoles>    
+				</shiro:hasAnyRoles>
+				<!-- 
 				<li>
 					<a class="dropdown-toggle" target="_blank" href="http://www.sojson.com/tag/shiro">
 						Shiro 博客<span class="collapsing"></span>
@@ -77,7 +78,8 @@
 					<a class="dropdown-toggle" href="http://www.sojson.com/shiro">
 						本项目介绍<span class="collapsing"></span>
 					</a>
-				</li>	          
+				</li>
+				 -->
 	          </ul>
 	           <ul class="nav navbar-nav  pull-right" >
 				<li class="dropdown " style="color:#fff;">

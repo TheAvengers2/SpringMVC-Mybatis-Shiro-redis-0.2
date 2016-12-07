@@ -4,7 +4,7 @@
 	如果你的用户不是root，那么请你把`root`改成你自己的用户帐号
 ***/
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`i_wenyiba_com` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`shiro_demo` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
 /* Procedure structure for procedure `init_shiro_demo` */
 
