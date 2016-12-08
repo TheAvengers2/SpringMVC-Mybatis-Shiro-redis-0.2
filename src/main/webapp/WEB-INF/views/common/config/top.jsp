@@ -79,7 +79,7 @@
 						本项目介绍<span class="collapsing"></span>
 					</a>
 				</li>
-				 -->
+				 -->          
 	          </ul>
 	           <ul class="nav navbar-nav  pull-right" >
 				<li class="dropdown " style="color:#fff;">
@@ -89,8 +89,8 @@
 						<shiro:principal property="nickname"/>
 						<span class="caret"></span></a>
 						<ul class="dropdown-menu" userid="<shiro:principal property="id"/>">
-							<li><a href="http://shiro.itboy.net/user/index.shtml">个人资料</a></li>
-							<li><a href="http://shiro.itboy.net/role/mypermission.shtml">我的权限</a></li>
+							<li><a href="#">个人资料</a></li>
+							<li><a href="#">我的权限</a></li>
 							<li><a href="javascript:void(0);" onclick="logout();">退出登录</a></li>
 						</ul>
 					</shiro:user>   

@@ -4,14 +4,48 @@
 		<meta charset="utf-8" />
 		<title>权限分配 - 权限管理</title>
 		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-		<link   rel="icon" href="http://img.wenyifan.net/images/favicon.ico" type="image/x-icon" />
-		<link   rel="shortcut icon" href="http://img.wenyifan.net/images/favicon.ico" />
+		<link   rel="icon" href="${basePath}/css/favicon.ico" type="image/x-icon" />
+		<link   rel="shortcut icon" href="${basePath}/css/favicon.ico" />
 		<link href="${basePath}/js/common/bootstrap/3.3.5/css/bootstrap.min.css?${_v}" rel="stylesheet"/>
 		<link href="${basePath}/css/common/base.css?${_v}" rel="stylesheet"/>
-		<script  src="http://open.sojson.com/common/jquery/jquery1.8.3.min.js"></script>
-		<script  src="${basePath}/js/common/layer/layer.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="${basePath}/css/jsgrid/demos.css" />
+		<link href="${basePath}/css/jsgrid/googleapis.css" rel="stylesheet"/>
+		
+		<link href="${basePath}/css/jsgrid/jsgrid.css" rel="stylesheet"/>
+		<link href="${basePath}/css/jsgrid/theme.css" rel="stylesheet"/>
+		
+		
+		<script  src="${basePath}/js/common/jquery/jquery-1.8.3.js"></script>
 		<script  src="${basePath}/js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		
+		<script  src="${basePath}/js/common/layer/layer.js"></script>
 		<script  src="${basePath}/js/shiro.demo.js"></script>
+		
+		<script  src="${basePath}/js/common/demo/db.js"></script>
+		
+		<script src="${basePath}/js/common/jsgrid/jsgrid.core.js"></script>
+	    <script src="${basePath}/js/common/jsgrid/jsgrid.load-indicator.js"></script>
+	    <script src="${basePath}/js/common/jsgrid/jsgrid.load-strategies.js"></script>
+	    <script src="${basePath}/js/common/jsgrid/jsgrid.sort-strategies.js"></script>
+	    <script src="${basePath}/js/common/jsgrid/jsgrid.field.js"></script>
+	    <script src="${basePath}/js/common/jsgrid/fields/jsgrid.field.text.js"></script>
+	    <script src="${basePath}/js/common/jsgrid/fields/jsgrid.field.number.js"></script>
+	    <script src="${basePath}/js/common/jsgrid/fields/jsgrid.field.select.js"></script>
+	    <script src="${basePath}/js/common/jsgrid/fields/jsgrid.field.checkbox.js"></script>
+	    <script src="${basePath}/js/common/jsgrid/fields/jsgrid.field.control.js"></script>
+	    <script src="${basePath}/js/common/jsgrid/fields/jsgrid.field.textarea.js"></script>
+	
+	    <style>
+	        .rating {
+	            color: #F8CA03;
+	        }
+			.client-photo { float: left; margin: 0 20px 0 10px; }
+			.client-photo img { border-radius: 50%; border: 1px solid #ddd; }
+			.client-info { margin-top: 10px; }
+			.client-info p { line-height: 25px; }
+	    </style>
+    
 		<script >
 			so.init(function(){
 				//初始化全选。
@@ -114,6 +148,7 @@
 	<body data-target="#one" data-spy="scroll">
 		<#--引入头部-->
 		<@_top.top 3/>
+		
 		<div class="container" style="padding-bottom: 15px;min-height: 300px; margin-top: 40px;">
 			<div class="row">
 				<#--引入左侧菜单-->
@@ -170,6 +205,9 @@
 						</div>
 					</#if>
 					</form>
+					
+					<h1>Basic Scenario</h1>
+					<div id="jsGrid"></div>
 				</div>
 			</div><#--/row-->
 			
@@ -195,7 +233,90 @@
 			</div>
 			<#--/弹框-->
 			
-		</div>
+			<script>
+				var res;
+				console.log("start to ajax call.");
+				$.get("/shiro.demo/demo/bootgrid.json").done(function(data){this.res=data;console.log(this.res);});
+			</script>
 			
+
+			<script>
+				$(function() {
+
+					$("#jsGrid").jsGrid({
+						height: "480px",
+						width: "970px",
+						filtering: false,
+						editing: false,
+						inserting: true,
+						sorting: true,
+						paging: true,
+						autoload: true,
+						pageSize: 10,
+						pageButtonCount: 5,
+						deleteConfirm: "Do you really want to delete the client?",
+						controller: db,
+						fields: [
+							{
+		                        headerTemplate: function() {
+		                            return $("<button>").attr("type", "button").text("Delete")
+		                                    .on("click", function () {
+		                                        deleteSelectedItems();
+		                                    });
+		                        },
+		                        itemTemplate: function(_, item) {
+		                            return $("<input>").attr("type", "checkbox")
+		                                    .prop("checked", $.inArray(item, selectedItems) > -1)
+		                                    .on("change", function () {
+		                                        $(this).is(":checked") ? selectItem(item) : unselectItem(item);
+		                                    });
+		                        },
+		                        align: "center",
+		                        width: 50,
+		                        sorting: false
+		                    },
+							{ name: "Name", type: "text", width: 150 },
+							{ name: "Age", type: "number", width: 50 },
+							{ name: "Address", type: "text", width: 200 },
+							{ name: "Country", type: "select", items: db.countries, valueField: "Id", textField: "Name" },
+							{ name: "Married", type: "checkbox", title: "Is Married", sorting: false },
+							{ type: "control" }
+						]
+					});
+					
+					var selectedItems = [];
+
+		            var selectItem = function(item) {
+		                selectedItems.push(item);
+		            };
+		
+		            var unselectItem = function(item) {
+		                selectedItems = $.grep(selectedItems, function(i) {
+		                    return i !== item;
+		                });
+		            };
+		
+		            var deleteSelectedItems = function() {
+		                if(!selectedItems.length || !confirm("Are you sure?"))
+		                    return;
+		
+		                deleteClientsFromDb(selectedItems);
+		
+		                var $grid = $("#jsGrid");
+		                $grid.jsGrid("option", "pageIndex", 1);
+		                $grid.jsGrid("loadData");
+		
+		                selectedItems = [];
+		            };
+		
+		            var deleteClientsFromDb = function(deletingClients) {
+		                db.clients = $.map(db.clients, function(client) {
+		                    return ($.inArray(client, deletingClients) > -1) ? null : client;
+		                });
+		            };
+
+				});
+			</script>
+		</div>
 	</body>
 </html>
