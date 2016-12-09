@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.sojson.demo.domain.Contact;
-import com.sojson.demo.domain.PageObject;
+import com.sojson.demo.domain.BootGridPageObject;
 
 @Controller
 @RequestMapping(path="/data")
@@ -22,7 +22,7 @@ public class ContactListController {
 	@RequestMapping(path="/contacts")
 	@ResponseBody
 	@ResponseStatus(code=HttpStatus.OK)
-	public PageObject<Contact> getContactListPage(HttpServletRequest request,HttpServletResponse resposne){
+	public BootGridPageObject<Contact> getContactListPage(HttpServletRequest request,HttpServletResponse resposne){
 		Contact a = new Contact(19,"123@test.de","2014-05-30T22:15:00");
 		Contact b = new Contact(29,"123@test.de","2016-05-30T22:15:01");
 		Contact c = new Contact(14,"123@test.de","2017-05-30T22:15:02");
@@ -40,7 +40,7 @@ public class ContactListController {
 		rows.add(f);
 		rows.add(h);
 		
-		PageObject<Contact> res = new PageObject<Contact>();
+		BootGridPageObject<Contact> res = new BootGridPageObject<Contact>();
 		res.setCurrent(1);
 		res.setRowCount(10);
 		res.setRows(rows);

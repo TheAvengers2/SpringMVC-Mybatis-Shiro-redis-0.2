@@ -2,7 +2,7 @@ package com.sojson.demo.domain;
 
 import java.util.List;
 
-public class PageObject<T> {
+public class BootGridPageObject<T> {
 
 	private int current;
 	
