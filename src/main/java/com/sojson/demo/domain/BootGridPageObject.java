@@ -2,6 +2,8 @@ package com.sojson.demo.domain;
 
 import java.util.List;
 
+import net.sf.json.JSONObject;
+
 public class BootGridPageObject<T> {
 
 	private int current;
@@ -11,7 +13,7 @@ public class BootGridPageObject<T> {
 	private List<T> rows;
 	
 	private int total;
-
+	
 	public int getCurrent() {
 		return current;
 	}
@@ -44,5 +46,7 @@ public class BootGridPageObject<T> {
 		this.total = total;
 	}
 	
-	
+	public String toString(){
+    	return JSONObject.fromObject(this).toString();
+    }
 }

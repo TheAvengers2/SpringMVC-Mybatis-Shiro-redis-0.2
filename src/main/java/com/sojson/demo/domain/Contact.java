@@ -1,5 +1,7 @@
 package com.sojson.demo.domain;
 
+import net.sf.json.JSONObject;
+
 public class Contact {
 
 	private int id;
@@ -38,5 +40,7 @@ public class Contact {
 		this.received = received;
 	}
 	
-	
+	public String toString(){
+    	return JSONObject.fromObject(this).toString();
+    }
 }

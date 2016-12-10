@@ -8,6 +8,9 @@
 		<link   rel="shortcut icon" href="http://img.wenyifan.net/images/favicon.ico" />
 		<link href="${basePath}/js/common/bootstrap/3.3.5/css/bootstrap.min.css?${_v}" rel="stylesheet"/>
 		<link href="${basePath}/css/common/base.css?${_v}" rel="stylesheet"/>
+		
+		<link href="${basePath}/css/bootgrid/jquery.bootgrid.css" rel="stylesheet"/>
+		
 		<script  src="http://open.sojson.com/common/jquery/jquery1.8.3.min.js"></script>
 		<script  src="${basePath}/js/common/layer/layer.js"></script>
 		<script  src="${basePath}/js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -136,6 +139,20 @@
 							${page.pageHtml}
 						</div>
 					</#if>
+					
+					<!-- bootgrid start -->
+					<table id="grid-keep-selection" class="table table-condensed table-hover table-striped">
+					    <thead>
+					        <tr>
+					            <th data-column-id="id" data-type="numeric" data-identifier="true">ID</th>
+					            <th data-column-id="url">权限名称</th>
+					            <th data-column-id="name" data-order="desc">角色类型</th>
+					            <th data-column-id="link" data-formatter="link" data-sortable="false">操作</th>
+					        </tr>
+					    </thead>
+					</table>
+					<!-- bootgrid end -->
+					
 					</form>
 				</div>
 			</div><#--/row-->
@@ -170,6 +187,56 @@
 			<#--/弹框-->
 			</@shiro.hasPermission>
 		</div>
-			
+		
+		<!-- jquery bootgrid start -->
+		<script src="${basePath}/js/common/bootgrid/moderniz.2.8.1.js"></script>
+		<script src="${basePath}/js/common/bootgrid/jquery.bootgrid.js"></script>
+		<script>
+			$("#grid-keep-selection").bootgrid({
+			    ajax: true,
+			    ajaxSettings: {
+			        method: "GET",
+			        cache: false
+			    },
+			    post: function ()
+			    {
+			        /* To accumulate custom parameter with the request object */
+			        return {
+			            id: "b0df282a-0d67-40e5-8558-c9e93b7befed"
+			        };
+			    },
+			    url: "/shiro.demo/data/permission/page",
+			    selection: true,
+			    multiSelect: true,
+			    rowSelect: true,
+			    keepSelection: true,
+			    formatters: {
+			        "link": function(column, row)
+			        {
+						console.log(column);
+						console.log(row);
+			            return "<a href=\"#\">" + column.id + ": " + row.id + "</a>";
+			        }
+			    }
+			}).on("selected.rs.jquery.bootgrid", function(e, rows)
+			{
+			    var rowIds = [];
+			    for (var i = 0; i < rows.length; i++)
+			    {
+			        rowIds.push(rows[i].id);
+			    }
+			    alert("Select: " + rowIds.join(","));
+			}).on("deselected.rs.jquery.bootgrid", function(e, rows)
+			{
+			    var rowIds = [];
+			    for (var i = 0; i < rows.length; i++)
+			    {
+			        rowIds.push(rows[i].id);
+			    }
+			    alert("Deselect: " + rowIds.join(","));
+			});
+		</script>
+		<!-- jquery bootgrid end -->
+		
 	</body>
 </html>
