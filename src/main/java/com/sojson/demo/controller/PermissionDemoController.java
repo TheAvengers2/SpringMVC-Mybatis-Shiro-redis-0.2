@@ -8,7 +8,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -31,7 +33,7 @@ public class PermissionDemoController  extends BaseController {
 	PermissionService permissionService;
 	
 	/**
-	 * 权限列表 获取分页信息
+	 * 获取权限列表 获取分页信息
 	 * @param findContent	查询内容
 	 * @param pageNo		页码
 	 * @param modelMap		参数回显
@@ -53,5 +55,21 @@ public class PermissionDemoController  extends BaseController {
 		BootGridPageObject<UPermission> page = BootGridUtils.prepareBootGridPageObject(pageNo, pageSize, permissions.getList(), permissions.getTotalCount());
 		LoggerUtils.debug(getClass(), page.toString());
 		return page;
+	}
+	
+	/**
+	 * 更新权限列表 记录
+	 * @param findContent	查询内容
+	 * @param pageNo		页码
+	 * @param modelMap		参数回显
+	 * @return
+	 */
+	@RequestMapping(value="/update", method=RequestMethod.POST)
+	@ResponseBody
+	@ResponseStatus(code=HttpStatus.OK)
+	public void getPermissionPaginationData(@RequestBody(required=true) UPermission obj){
+		
+		LoggerUtils.debug(getClass(), obj.toString());
+		
 	}
 }

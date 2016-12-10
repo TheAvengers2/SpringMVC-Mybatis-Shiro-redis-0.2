@@ -91,6 +91,8 @@
 			        rowIds.push(rows[i].id);
 			    }
 			    alert("Deselect: " + rowIds.join(","));
+			}).on("removed.rs.jquery.bootgrid",function(e,removedRows){
+				console.log(removedRows);
 			});
 		</script>
 	</body>
